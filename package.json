@@ -1,0 +1,50 @@
+{
+  "name": "@throskam/eko",
+  "version": "0.1.0",
+  "description": "Multiple projects management tool",
+  "repository": "throskam/eko",
+  "homepage": "https://github.com/throskam/eko",
+  "bugs": "https://github.com/throskam/eko/issues",
+  "author": "Thibaut Roskam <throskam@gmail.com>",
+  "license": "MIT",
+  "keywords": [
+    "multiple",
+    "projects",
+    "management",
+    "tool",
+    "cli",
+    "repositories",
+    "git",
+    "microservices"
+  ],
+  "bin": {
+    "eko": "src/index.js"
+  },
+  "main": "index.js",
+  "scripts": {
+    "build:linux": "nexe src/index.js --resource 'src/commands/**/*' --target linux-x64-10.0.0 --output bin/eko",
+    "build:macos": "nexe src/index.js --resource 'src/commands/**/*' --target mac-x64-10.0.0 --output bin/eko.app",
+    "build:windows": "nexe src/index.js --resource 'src/commands/**/*' --target windows-x64-10.0.0 --output bin/eko.exe",
+    "release": "standard-version"
+  },
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "inquirer": "^6.3.1",
+    "ora": "^3.4.0",
+    "pretty-time": "^1.1.0",
+    "yargs": "^13.2.2"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-promise": "^4.1.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "nexe": "^3.2.0",
+    "standard-version": "^6.0.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
