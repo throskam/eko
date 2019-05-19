@@ -161,7 +161,7 @@ module.exports = {
         ...(error
           ? [
             format.info('stopped'),
-            format.fatal(error.message)
+            format.error(error.message)
           ] : [
             format.info('on'),
             branch.padEnd(padding.branch),
@@ -174,12 +174,6 @@ module.exports = {
           ]
         )
       )
-
-      if (error) {
-        console.log(format.error(
-          require('util').inspect(error, { showHidden: false, depth: null })
-        ), '\n')
-      }
     })
   },
   async add (repository, directory) {
@@ -291,15 +285,11 @@ module.exports = {
           pretty(hrend),
           ...(error ? [
             format.info('stopped'),
-            format.fatal(error.message)
+            format.error(error.message)
           ] : [])
         )
 
-        if (error) {
-          console.log(format.error(
-            require('util').inspect(error, { showHidden: false, depth: null })
-          ), '\n')
-        } else {
+        if (!error) {
           buffers.map(buffer => process.stdout.write(buffer))
           console.log()
         }

@@ -6,17 +6,29 @@ const exist = async file => access(file).then(() => true, () => false)
 const path = '.eko'
 
 const read = async () => {
-  return JSON.parse(await readFile(path))
+  if (!(await exist(path))) {
+    throw new Error('This directory is not an eko project, use "create" first')
+  }
+
+  try {
+    return JSON.parse(await readFile(path))
+  } catch (err) {
+    throw new Error('Impossible to read .eko file')
+  }
 }
 
 const write = (data) => {
-  return writeFile(path, JSON.stringify(data, null, 2))
+  try {
+    return writeFile(path, JSON.stringify(data, null, 2))
+  } catch (err) {
+    throw new Error('Impossible to write .eko file')
+  }
 }
 
 module.exports = {
   async initialize () {
     if (await exist(path)) {
-      throw new Error('Already initialized')
+      throw new Error('The current directory is already an eko project')
     }
 
     return write({ projects: [] })
@@ -30,7 +42,7 @@ module.exports = {
     const config = await read()
 
     if (config.projects.find(project => project.directory === directory)) {
-      throw new Error('Already added')
+      throw new Error('A project with the given directory already exists')
     }
 
     config.projects.push({
