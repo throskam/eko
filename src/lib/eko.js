@@ -153,24 +153,22 @@ module.exports = {
      * impossible to collect data
      */
     await spinner(
-      projects.reduce((acc, project) => {
-        return acc.then(async () => {
-          try {
-            const branch = await exec(concat('git', 'rev-parse', '--abbrev-ref', 'HEAD'), { cwd: project.directory })
-            const changes = await exec(concat('git', 'status', '--porcelain'), { cwd: project.directory })
-            const state = await exec(concat('git', 'status', '-sb'), { cwd: project.directory })
+      Promise.all(projects.map(async (project) => {
+        try {
+          const branch = await exec(concat('git', 'rev-parse', '--abbrev-ref', 'HEAD'), { cwd: project.directory })
+          const changes = await exec(concat('git', 'status', '--porcelain'), { cwd: project.directory })
+          const state = await exec(concat('git', 'status', '-sb'), { cwd: project.directory })
 
-            status[project.directory] = {
-              branch: branch.stdout.trim() + ' ' + ((/\[.*\]/g.exec(state.stdout.trim()) || []).shift() || ''),
-              changes: changes.stdout.trim() ? changes.stdout.trim().split('\n').length : 0
-            }
-          } catch (err) {
-            status[project.directory] = {
-              error: err
-            }
+          status[project.directory] = {
+            branch: branch.stdout.trim() + ' ' + ((/\[.*\]/g.exec(state.stdout.trim()) || []).shift() || ''),
+            changes: changes.stdout.trim() ? changes.stdout.trim().split('\n').length : 0
           }
-        })
-      }, Promise.resolve()),
+        } catch (err) {
+          status[project.directory] = {
+            error: err
+          }
+        }
+      })),
       format.info('collecting data...'),
       format.info('data collected'),
       format.info('impossible to collect data')
