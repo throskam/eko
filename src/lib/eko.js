@@ -43,6 +43,7 @@ module.exports = {
         concat(format.info('directory'), directory, format.info('created')),
         concat(format.info('impossible to create'), directory)
       )
+
       process.chdir(directory)
     }
 
