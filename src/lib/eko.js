@@ -3,25 +3,13 @@ const access = require('util').promisify(require('fs').access)
 const exec = require('util').promisify(require('child_process').exec)
 const { spawn } = require('child_process')
 const pretty = require('pretty-time')
-const chalk = require('chalk')
 const ora = require('ora')
 
+const format = require('./format')
 const rc = require('./rc')
 const gitignore = require('./gitignore')
 
 const exist = async file => access(file).then(() => true, () => false)
-
-const format = {
-  info (...args) {
-    return chalk.cyan(...args)
-  },
-  error (...args) {
-    return chalk.red(...args)
-  },
-  fatal (...args) {
-    return chalk.bold.red(...args)
-  }
-}
 
 const concat = (...args) => args.join(' ')
 
