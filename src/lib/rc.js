@@ -4,16 +4,9 @@ const access = require('util').promisify(require('fs').access)
 const exist = async file => access(file).then(() => true, () => false)
 
 const path = '.eko'
-let cache
 
 const read = async () => {
-  if (cache) {
-    return cache
-  }
-
-  cache = JSON.parse(await readFile(path))
-
-  return cache
+  return JSON.parse(await readFile(path))
 }
 
 const write = (data) => {
