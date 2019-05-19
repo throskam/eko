@@ -3,28 +3,15 @@ const access = require('util').promisify(require('fs').access)
 const exec = require('util').promisify(require('child_process').exec)
 const { spawn } = require('child_process')
 const pretty = require('pretty-time')
-const ora = require('ora')
 
 const format = require('./format')
+const spinner = require('./spinner')
 const rc = require('./rc')
 const gitignore = require('./gitignore')
 
 const exist = async file => access(file).then(() => true, () => false)
 
 const concat = (...args) => args.join(' ')
-
-const run = async (task, loading, success, error) => {
-  const spinner = ora(loading)
-
-  try {
-    spinner.start()
-    await task
-    spinner.succeed(success)
-  } catch (err) {
-    spinner.fail(error)
-    throw err
-  }
-}
 
 const clone = (repository, directory) => {
   /**
@@ -33,7 +20,7 @@ const clone = (repository, directory) => {
    * repository <repo> cloned in <dir>
    * impossible to clone <repo> in <dir>
    */
-  return run(
+  return spinner(
     exec(concat('git clone', repository, directory)),
     concat(format.info('cloning'), repository, format.info('in'), directory, format.info('...')),
     concat(format.info('repository'), repository, format.info('cloned in'), directory),
@@ -50,7 +37,7 @@ module.exports = {
        * directory <dir> created
        * impossible to create <dir>
        */
-      await run(
+      await spinner(
         exec(concat('mkdir -p', directory)),
         concat(format.info('creating'), directory, format.info('...')),
         concat(format.info('directory'), directory, format.info('created')),
@@ -65,7 +52,7 @@ module.exports = {
      * .eko written
      * impossible to write .eko
      */
-    await run(
+    await spinner(
       rc.initialize(),
       concat(format.info('writting'), '.eko', format.info('...')),
       concat('.eko', format.info(' written')),
@@ -88,7 +75,7 @@ module.exports = {
            * skipping <dir> project
            * project <dir> skipped
            */
-          await run(
+          await spinner(
             Promise.resolve(),
             concat(format.info('skipping'), project.directory, format.info('project')),
             concat(format.info('project'), project.directory, format.info('skipped'))
@@ -118,7 +105,7 @@ module.exports = {
      * data collected
      * impossible to collect data
      */
-    await run(
+    await spinner(
       projects.reduce((acc, project) => {
         return acc.then(async () => {
           try {
@@ -205,7 +192,7 @@ module.exports = {
      * project <dir> added
      * impossible to add <dir> project
      */
-    await run(
+    await spinner(
       Promise.all([rc.add(directory, repository), gitignore.add(directory)]),
       concat(format.info('adding'), directory, format.info('project')),
       concat(format.info('project'), directory, format.info('added')),
@@ -221,7 +208,7 @@ module.exports = {
      * project <dir> removed
      * impossible to remove <dir> project
      */
-    await run(
+    await spinner(
       Promise.all([rc.remove(directory), gitignore.remove(directory)]),
       concat(format.info('removing'), directory, format.info('project')),
       concat(format.info('project'), directory, format.info('removed')),
@@ -234,7 +221,7 @@ module.exports = {
      * directory <dir> removed
      * impossible to remove <dir> directory
      */
-    return run(
+    return spinner(
       exec(concat('rm -rf', directory)),
       concat(format.info('removing'), directory, format.info('directory')),
       concat(format.info('directory'), directory, format.info('removed')),
