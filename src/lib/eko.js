@@ -112,83 +112,86 @@ module.exports = {
     const projects = await rc.projects()
     const status = {}
 
-    const spinner = ora(format.info('collecting data...'))
+    /**
+     * Output:
+     * collection data
+     * data collected
+     * impossible to collect data
+     */
+    await run(
+      projects.reduce((acc, project) => {
+        return acc.then(async () => {
+          try {
+            const branch = await exec(concat('git', 'rev-parse', '--abbrev-ref', 'HEAD'), { cwd: project.directory })
+            const changes = await exec(concat('git', 'status', '--porcelain'), { cwd: project.directory })
+            const state = await exec(concat('git', 'status', '-sb'), { cwd: project.directory })
 
-    spinner.start()
-
-    return projects.reduce((acc, project) => {
-      return acc.then(async () => {
-        try {
-          const branch = await exec(concat('git', 'rev-parse', '--abbrev-ref', 'HEAD'), { cwd: project.directory })
-          const changes = await exec(concat('git', 'status', '--porcelain'), { cwd: project.directory })
-          const state = await exec(concat('git', 'status', '-sb'), { cwd: project.directory })
-
-          status[project.directory] = {
-            branch: branch.stdout.trim() + ' ' + ((/\[.*\]/g.exec(state.stdout.trim()) || []).shift() || ''),
-            changes: changes.stdout.trim() ? changes.stdout.trim().split('\n').length : 0
+            status[project.directory] = {
+              branch: branch.stdout.trim() + ' ' + ((/\[.*\]/g.exec(state.stdout.trim()) || []).shift() || ''),
+              changes: changes.stdout.trim() ? changes.stdout.trim().split('\n').length : 0
+            }
+          } catch (err) {
+            status[project.directory] = {
+              error: err
+            }
           }
-        } catch (err) {
-          status[project.directory] = {
-            error: err
-          }
-        }
-      })
-    }, Promise.resolve()).then(() => {
-      const statuses = Object.keys(status).map(directory => ({ ...status[directory], directory }))
+        })
+      }, Promise.resolve()),
+      format.info('collecting data...'),
+      format.info('data collected'),
+      format.info('impossible to collect data')
+    )
 
-      const padding = statuses.reduce((maxes, { directory, branch, error }) => {
-        if (error) {
-          return maxes
-        }
+    const statuses = Object.keys(status).map(directory => ({ ...status[directory], directory }))
 
-        return {
-          directory: Math.max(directory.length, maxes.directory),
-          branch: Math.max(branch.length, maxes.branch)
-        }
-      }, {
-        directory: 0,
-        branch: 0
-      })
+    const padding = statuses.reduce((maxes, { directory, branch, error }) => {
+      if (error) {
+        return maxes
+      }
 
-      spinner.succeed(format.info('data collected'))
-      console.log()
+      return {
+        directory: Math.max(directory.length, maxes.directory),
+        branch: Math.max(branch.length, maxes.branch)
+      }
+    }, {
+      directory: 0,
+      branch: 0
+    })
 
-      statuses.forEach(({ error, directory, branch, changes }) => {
-        /**
-         * Output:
-         * project <dir> on <branch>
-         * project <dir> on <branch> (<changes> changes)
-         * project <dir> stopped <err> + error
-         */
-        console.log(
-          format.info('▶'),
-          directory.padEnd(padding.directory),
-          ...(error
-            ? [
-              format.info('stopped'),
-              format.fatal(error.message)
-            ] : [
-              format.info('on'),
-              branch.padEnd(padding.branch),
-              ...(changes
-                ? [
-                  format.info('with'),
-                  changes,
-                  format.info('change' + (changes > 1 ? 's' : ''))
-                ] : [])
-            ]
-          )
+    console.log()
+
+    statuses.forEach(({ error, directory, branch, changes }) => {
+      /**
+       * Output:
+       * project <dir> on <branch>
+       * project <dir> on <branch> (<changes> changes)
+       * project <dir> stopped <err> + error
+       */
+      console.log(
+        format.info('▶'),
+        directory.padEnd(padding.directory),
+        ...(error
+          ? [
+            format.info('stopped'),
+            format.fatal(error.message)
+          ] : [
+            format.info('on'),
+            branch.padEnd(padding.branch),
+            ...(changes
+              ? [
+                format.info('with'),
+                changes,
+                format.info('change' + (changes > 1 ? 's' : ''))
+              ] : [])
+          ]
         )
+      )
 
-        if (error) {
-          console.log(format.error(
-            require('util').inspect(error, { showHidden: false, depth: null })
-          ), '\n')
-        }
-      })
-    }).catch((err) => {
-      spinner.fail(format.info('impossible to collect data'))
-      throw err
+      if (error) {
+        console.log(format.error(
+          require('util').inspect(error, { showHidden: false, depth: null })
+        ), '\n')
+      }
     })
   },
   async add (repository, directory) {
