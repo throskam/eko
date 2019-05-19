@@ -3,6 +3,8 @@ const access = require('util').promisify(require('fs').access)
 const exec = require('util').promisify(require('child_process').exec)
 const { spawn } = require('child_process')
 const pretty = require('pretty-time')
+const inquirer = require('inquirer')
+const glob = require('util').promisify(require('glob'))
 
 const format = require('./format')
 const spinner = require('./spinner')
@@ -93,6 +95,50 @@ module.exports = {
           await this.sync()
           process.chdir(cwd)
         }
+      })
+    }, Promise.resolve())
+  },
+  async discover (option) {
+    const projects = await rc.projects()
+
+    /**
+     * Output:
+     * collecting data
+     * data collected
+     * impossible to collect data
+     */
+    const gits = await spinner(
+      glob('**/.git', { ignore: option.ignore }),
+      format.info('collecting data...'),
+      format.info('data collected'),
+      format.info('impossible to collect data')
+    )
+
+    let directories = gits
+      .map(git => path.dirname(git))
+      .filter(directory => !projects.find(project => project.directory === directory))
+      .filter(directory => !option.regex || option.regex.test(directory))
+
+    if (!directories.length) {
+      console.log('Nothing found')
+      return
+    }
+
+    const answer = await inquirer.prompt({
+      type: 'checkbox',
+      name: 'directories',
+      message: 'Choose the directories you want to add to your project',
+      choices: directories
+    })
+
+    directories = answer.directories
+
+    return directories.reduce(async (acc, directory) => {
+      return acc.then(async () => {
+        const stream = await exec('git config --get remote.origin.url', { cwd: directory })
+        const repository = stream.stdout.trim()
+
+        return this.add(repository, directory)
       })
     }, Promise.resolve())
   },
@@ -194,6 +240,11 @@ module.exports = {
       concat(format.info('impossible to add'), directory, format.info('project'))
     )
 
+    // Ignore if already cloned.
+    if (await exist(path.join(directory, '.git'))) {
+      return
+    }
+
     return clone(repository, directory)
   },
   async remove (directory) {
@@ -231,12 +282,10 @@ module.exports = {
       .filter(directory => !option.regex || option.regex.test(directory))
 
     if (option.interactive && directories.length) {
-      const inquirer = require('inquirer')
-
       const answer = await inquirer.prompt({
         type: 'checkbox',
         name: 'directories',
-        message: 'Pick some directories',
+        message: 'Choose the directories you want to target',
         choices: directories
       })
 
