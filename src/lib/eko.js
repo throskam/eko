@@ -108,7 +108,7 @@ module.exports = {
      * impossible to collect data
      */
     const gits = await spinner(
-      glob('**/.git', { ignore: option.ignore }),
+      glob('**/.git', { ignore: option.ignore, silent: true }),
       format.info('collecting data...'),
       format.info('data collected'),
       format.info('impossible to collect data')
