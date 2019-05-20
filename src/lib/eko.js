@@ -30,6 +30,14 @@ const clone = (repository, directory) => {
   )
 }
 
+const alpha = (key) => (a, b) => {
+  if (a[key] === b[key]) {
+    return 0
+  }
+
+  return a[key] > b[key] ? 1 : -1
+}
+
 module.exports = {
   async create (directory) {
     if (directory !== '.') {
@@ -192,7 +200,7 @@ module.exports = {
 
     console.log()
 
-    statuses.forEach(({ error, directory, branch, changes }) => {
+    statuses.sort(alpha('directory')).forEach(({ error, directory, branch, changes }) => {
       /**
        * Output:
        * project <dir> on <branch>
