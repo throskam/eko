@@ -267,18 +267,27 @@ module.exports = {
       concat(format.info('impossible to remove'), directory, format.info('project'))
     )
 
-    /**
-     * Output:
-     * removing <dir> directory
-     * directory <dir> removed
-     * impossible to remove <dir> directory
-     */
-    return spinner(
-      exec(concat('rm -rf', directory)),
-      concat(format.info('removing'), directory, format.info('directory')),
-      concat(format.info('directory'), directory, format.info('removed')),
-      concat(format.info('impossible to remove'), directory, format.info('directory'))
-    )
+    const answer = await inquirer.prompt({
+      type: 'confirm',
+      name: 'confirm',
+      message: 'Do you want to remove the directory ?',
+      default: true
+    })
+
+    if (answer.confirm) {
+      /**
+       * Output:
+       * removing <dir> directory
+       * directory <dir> removed
+       * impossible to remove <dir> directory
+       */
+      return spinner(
+        exec(concat('rm -rf', directory)),
+        concat(format.info('removing'), directory, format.info('directory')),
+        concat(format.info('directory'), directory, format.info('removed')),
+        concat(format.info('impossible to remove'), directory, format.info('directory'))
+      )
+    }
   },
   async exec (command, option) {
     const projects = await rc.projects()
