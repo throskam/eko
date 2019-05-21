@@ -22,10 +22,13 @@
   },
   "main": "index.js",
   "scripts": {
-    "build:linux": "nexe src/index.js --resource 'src/commands/**/*' --target linux-x64-10.0.0 --output bin/eko",
-    "build:macos": "nexe src/index.js --resource 'src/commands/**/*' --target mac-x64-10.0.0 --output bin/eko.app",
-    "build:windows": "nexe src/index.js --resource 'src/commands/**/*' --target windows-x64-10.0.0 --output bin/eko.exe",
+    "build:linux": "pkg . --target node10-linux-x64 --output bin/eko_linux_x64",
+    "build:macos": "pkg . --target node10-mac-x64 --output bin/eko_macos_x64",
+    "build:windows": "pkg . --target node10-windows-x64 --output bin/eko_windows_x64",
     "release": "standard-version"
+  },
+  "pkg": {
+    "scripts": "src/**/*.js"
   },
   "dependencies": {
     "boxen": "^3.2.0",
@@ -43,7 +46,7 @@
     "eslint-plugin-node": "^8.0.1",
     "eslint-plugin-promise": "^4.1.1",
     "eslint-plugin-standard": "^4.0.0",
-    "nexe": "^3.2.0",
+    "pkg": "^4.4.0",
     "standard-version": "^6.0.1"
   },
   "publishConfig": {
