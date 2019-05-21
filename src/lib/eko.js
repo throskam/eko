@@ -359,8 +359,9 @@ module.exports = {
 
         if (!error) {
           buffers.map(buffer => process.stdout.write(buffer))
-          console.log()
         }
+
+        console.log()
 
         next()
       })
