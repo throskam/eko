@@ -23,6 +23,16 @@ git add .eko .gitignore
 git commit
 ```
 
+**Migrating to eko**
+
+```
+eko create
+eko discover
+
+git add .eko
+git commit
+```
+
 **Cloning an existing eko project**
 
 `eko clone <repository> [directory]`
