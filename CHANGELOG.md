@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.1](https://github.com/throskam/eko/compare/v0.3.0...v0.3.1) (2019-05-21)
+
+
+### Bug Fixes
+
+* add line break in exec errors ([62299f2](https://github.com/throskam/eko/commit/62299f2))
+* discover with executable ([579293b](https://github.com/throskam/eko/commit/579293b))
+* hide errors details in sync ([8edfb56](https://github.com/throskam/eko/commit/8edfb56))
+* remove cwd from discover ([c08f1e2](https://github.com/throskam/eko/commit/c08f1e2))
+
+
+
 ## [0.3.0](https://github.com/throskam/eko/compare/v0.2.0...v0.3.0) (2019-05-20)
 
 
