@@ -22,9 +22,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "build:linux": "pkg . --target node10-linux-x64 --output bin/eko_linux_x64",
-    "build:macos": "pkg . --target node10-mac-x64 --output bin/eko_macos_x64",
-    "build:windows": "pkg . --target node10-windows-x64 --output bin/eko_windows_x64",
+    "build": "pkg . --targets node10-linux-x64,node10-macos-x64,node10-win-x64 --out-path bin",
     "release": "standard-version"
   },
   "pkg": {
