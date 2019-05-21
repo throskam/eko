@@ -128,6 +128,7 @@ module.exports = {
 
     let directories = gits
       .map(git => path.dirname(git))
+      .filter(directory => directory !== '.')
       .filter(directory => !projects.find(project => project.directory === directory))
       .filter(directory => !option.regex || option.regex.test(directory))
 
