@@ -94,7 +94,11 @@ module.exports = {
           return
         }
 
-        await clone(project.repository, project.directory).catch(err => console.log(format.error(err)))
+        try {
+          await clone(project.repository, project.directory)
+        } catch (err) {
+          // Ignore and continue
+        }
 
         if (await exist(path.join(project.repository, '.eko'))) {
           const cwd = process.cwd()
