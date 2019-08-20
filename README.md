@@ -60,7 +60,7 @@ For instance `git status | cat` will print no colors.
 
 In many cases, you can circumvent this issue by adding flags to the command.
 
-`git status -c color.status=always | cat`
+`git -c color.status=always status | cat`
 
 This method can be apply with *eko* too
 
