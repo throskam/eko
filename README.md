@@ -70,6 +70,8 @@ This method can be apply with *eko* too
 
 - Support for recursive project (execute *clone*, *sync*, *exec* and *status* recursively)
 - Support for calling *eko* from a child directory like *git* does
+- Support for tags as a grouping mechanism
+- Support for branch fixing
 
 ## Contributing
 
