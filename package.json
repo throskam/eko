@@ -23,6 +23,8 @@
   "main": "index.js",
   "scripts": {
     "build": "pkg . --targets node10-linux-x64,node10-macos-x64,node10-win-x64 --out-path bin",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
     "release": "standard-version"
   },
   "pkg": {
