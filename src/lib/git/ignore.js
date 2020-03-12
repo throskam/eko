@@ -1,13 +1,16 @@
+const access = require('util').promisify(require('fs').access)
 const appendFile = require('util').promisify(require('fs').appendFile)
+const debug = require('debug')('git-ignore')
 const readFile = require('util').promisify(require('fs').readFile)
 const writeFile = require('util').promisify(require('fs').writeFile)
-const access = require('util').promisify(require('fs').access)
+
 const exist = async file => access(file).then(() => true, () => false)
 
 const path = '.gitignore'
 
 const read = async () => {
   try {
+    debug('read git ignore from ' + path)
     return await readFile(path)
   } catch (err) {
     throw new Error('Impossible to read .gitignore')
@@ -16,6 +19,7 @@ const read = async () => {
 
 const write = async (data) => {
   try {
+    debug('write git ignore to ' + path)
     return await writeFile(path, data)
   } catch (err) {
     throw new Error('Impossible to write .gitignore')

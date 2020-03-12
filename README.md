@@ -1,8 +1,17 @@
-# eko
+# Multi-projects management tool
 
-Multiple projects management tool.
+![CircleCI](https://img.shields.io/circleci/build/github/throskam/eko)
+![Codecov](https://img.shields.io/codecov/c/github/throskam/eko)
+![npm-version](https://img.shields.io/npm/v/@throskam/eko)
+![npm-license](https://img.shields.io/npm/l/@throskam/eko)
 
-*eko* allows you to manage multiple projects as a single meta project.
+A **CLI** tool to manage multiple projects as a single meta project.
+
+## Features
+
+- **generic**: run any commands
+- **performant**: run commands in parallel
+- **shareable**: local configuration file
 
 ## Installation
 
@@ -12,39 +21,29 @@ Multiple projects management tool.
 
 See `eko --help` for details.
 
-**Creating a new eko project**
+### Managing the project
 
-```
-eko create
-eko add <repository> [directory]
+If you already have a directory containing multiple projects you can use the
+command `discover` to search recursively for git repositories.
 
-git init
-git add .eko .gitignore
-git commit
-```
+`eko discover`
 
-**Migrating to eko**
+Otherwise, you can manually add repositories with `add`.
 
-```
-eko create
-eko discover
+`eko add <repository> [directory]`
 
-git add .eko
-git commit
-```
+You can optionally create a repository for your *eko* project itself.
+That way, anyone would be able to clone it using the `clone` command.
 
-**Cloning an existing eko project**
+`eko clone <ekoable-repository> [directory]`
 
-`eko clone <repository> [directory]`
+You can use the `sync` command to synchronize your project with its `.eko` file.
 
-**Updating the project**
+`eko sync`
 
-```
-eko sync
-eko exec -- git pull
-```
+Note that this command is only additive and won't remove any file.
 
-**Executing commands**
+### Executing Commands
 
 `eko exec -- echo "Hi from \$PWD"`
 
@@ -71,7 +70,6 @@ This method can be apply with *eko* too
 - Support for recursive project (execute *clone*, *sync*, *exec* and *status* recursively)
 - Support for calling *eko* from a child directory like *git* does
 - Support for tags as a grouping mechanism
-- Support for branch fixing
 
 ## Contributing
 
@@ -79,9 +77,9 @@ See [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## Related projects
 
-- [meta](https://github.com/mateodelnorte/meta)
-- [gr](https://github.com/mixu/gr)
 - [gits](http://gitslave.sourceforge.net/gits-man-page.html)
-- [rgit](https://metacpan.org/pod/rgit)
+- [gr](https://github.com/mixu/gr)
+- [meta](https://github.com/mateodelnorte/meta)
 - [mu-repo](https://github.com/fabioz/mu-repo/)
 - [myrepos](http://myrepos.branchable.com/)
+- [rgit](https://metacpan.org/pod/rgit)

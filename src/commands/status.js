@@ -1,7 +1,9 @@
-const eko = require('../lib/eko')
+const status = require('../lib/tasks/status')
 
 module.exports = {
   command: 'status',
   describe: 'Show the project status',
-  handler: argv => eko.status()
+  handler: (argv) => {
+    return status()
+  }
 }

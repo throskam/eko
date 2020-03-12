@@ -1,4 +1,4 @@
-const eko = require('../lib/eko')
+const clone = require('../lib/tasks/clone')
 
 module.exports = {
   command: 'clone <repository> [directory]',
@@ -13,5 +13,7 @@ module.exports = {
       default: '.'
     })
   },
-  handler: argv => eko.clone(argv.repository, argv.directory)
+  handler: (argv) => {
+    return clone(argv.repository, argv.directory)
+  }
 }

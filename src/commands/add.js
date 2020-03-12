@@ -1,4 +1,4 @@
-const eko = require('../lib/eko')
+const add = require('../lib/tasks/add')
 
 module.exports = {
   command: 'add <repository> [directory]',
@@ -14,5 +14,7 @@ module.exports = {
       coerce: val => val[val.length - 1] === '/' ? val.slice(0, -1) : val
     })
   },
-  handler: argv => eko.add(argv.repository, argv.directory)
+  handler: (argv) => {
+    return add(argv.repository, argv.directory)
+  }
 }

@@ -1,4 +1,4 @@
-const eko = require('../lib/eko')
+const remove = require('../lib/tasks/remove')
 
 module.exports = {
   command: 'remove <directory>',
@@ -11,5 +11,7 @@ module.exports = {
       coerce: val => val[val.length - 1] === '/' ? val.slice(0, -1) : val
     })
   },
-  handler: argv => eko.remove(argv.directory)
+  handler: (argv) => {
+    return remove(argv.directory)
+  }
 }

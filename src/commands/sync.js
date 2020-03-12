@@ -1,7 +1,9 @@
-const eko = require('../lib/eko')
+const sync = require('../lib/tasks/sync')
 
 module.exports = {
   command: 'sync',
   describe: 'Synchronize the eko project',
-  handler: argv => eko.sync()
+  handler: (argv) => {
+    return sync()
+  }
 }

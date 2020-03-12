@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should display the project status 1`] = `
+Array [
+  "[36m▶ [39mpath/to/my-first-directory [36m on [39mshort-name                                [36m [39m[ahead 1]  ",
+  "[36m▶ [39mpath/to/my-fourth-directory[36m stopped [39mSome error",
+  "[36m▶ [39mpath/to/my-second-directory[36m on [39ma-very-long-name-of-branch-that-is-awesome[36m [39m[behind 15][36m with [39m1[36m [39mchange",
+  "[36m▶ [39mpath/to/my-third-directory [36m on [39msome-other-branch                         [36m [39m           [36m with [39m100[36m [39mchanges",
+]
+`;

@@ -1,4 +1,4 @@
-const eko = require('../lib/eko')
+const discover = require('../lib/tasks/discover')
 
 module.exports = {
   command: 'discover',
@@ -15,8 +15,10 @@ module.exports = {
       type: 'array'
     })
   },
-  handler: argv => eko.discover({
-    regex: argv.regex ? new RegExp(argv.regex, 'iu') : null,
-    ignore: argv.ignore
-  })
+  handler: (argv) => {
+    return discover({
+      regex: argv.regex ? new RegExp(argv.regex, 'iu') : null,
+      ignore: argv.ignore
+    })
+  }
 }

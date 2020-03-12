@@ -1,4 +1,4 @@
-const eko = require('../lib/eko')
+const exec = require('../lib/tasks/exec')
 
 module.exports = {
   command: 'exec',
@@ -19,9 +19,13 @@ module.exports = {
       type: 'number'
     })
   },
-  handler: argv => eko.exec(argv._.slice(1).join(' '), {
-    regex: argv.regex ? new RegExp(argv.regex, 'iu') : null,
-    interactive: argv.interactive,
-    number: argv.number
-  })
+  handler: (argv) => {
+    const command = argv._.slice(1).join(' ')
+
+    return exec(command, {
+      regex: argv.regex ? new RegExp(argv.regex, 'iu') : null,
+      interactive: argv.interactive,
+      number: argv.number
+    })
+  }
 }

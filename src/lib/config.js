@@ -1,16 +1,22 @@
+const access = require('util').promisify(require('fs').access)
+const debug = require('debug')('config')
 const readFile = require('util').promisify(require('fs').readFile)
 const writeFile = require('util').promisify(require('fs').writeFile)
-const access = require('util').promisify(require('fs').access)
+
 const exist = async file => access(file).then(() => true, () => false)
 
 const path = '.eko'
 
 const read = async () => {
   if (!(await exist(path))) {
-    throw new Error('This directory is not an eko project, use "create" first')
+    // Return empty config.
+    return {
+      projects: []
+    }
   }
 
   try {
+    debug('read configuration from ' + path)
     return JSON.parse(await readFile(path))
   } catch (err) {
     throw new Error('Impossible to read .eko file')
@@ -19,6 +25,7 @@ const read = async () => {
 
 const write = (data) => {
   try {
+    debug('write configuration at ' + path)
     return writeFile(path, JSON.stringify(data, null, 2))
   } catch (err) {
     throw new Error('Impossible to write .eko file')
@@ -26,13 +33,6 @@ const write = (data) => {
 }
 
 module.exports = {
-  async initialize () {
-    if (await exist(path)) {
-      throw new Error('The current directory is already an eko project')
-    }
-
-    return write({ projects: [] })
-  },
   async projects () {
     const config = await read()
 
@@ -50,13 +50,13 @@ module.exports = {
       repository
     })
 
-    await write(config)
+    return write(config)
   },
   async remove (directory) {
     const config = await read()
 
     config.projects = config.projects.filter(project => directory !== project.directory)
 
-    await write(config)
+    return write(config)
   }
 }
