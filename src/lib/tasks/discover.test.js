@@ -22,7 +22,7 @@ it('should ignore excluded directories', async () => {
   const option = { ignore: 'pattern' }
   const gits = ['/path/to/my-directory/.git', '/path/to/my-second-directory/.git']
 
-  config.projects.mockResolvedValue([])
+  config.projects.list.mockResolvedValue([])
   cio.wait.mockImplementation(p => p)
   glob.mockImplementation((pattern, option, cb) => cb(null, gits))
   cio.checkbox.mockImplementation((message, items) => Promise.resolve(items))
@@ -40,7 +40,7 @@ it('should add select repositories', async () => {
   const directories = ['/path/to/my-directory', '/path/to/my-second-directory']
   const repository = 'git@github.com:user/repository'
 
-  config.projects.mockResolvedValue([])
+  config.projects.list.mockResolvedValue([])
   cio.wait.mockImplementation(p => p)
   glob.mockImplementation((pattern, option, cb) => cb(null, gits))
   cio.checkbox.mockImplementation((message, items) => Promise.resolve(items))
@@ -55,7 +55,7 @@ it('should add select repositories', async () => {
 it('should exit when no directories are found', async () => {
   const gits = []
 
-  config.projects.mockResolvedValue([])
+  config.projects.list.mockResolvedValue([])
   cio.wait.mockImplementation(p => p)
   glob.mockImplementation((pattern, option, cb) => cb(null, gits))
 
@@ -72,7 +72,7 @@ it('should ignore already added project', async () => {
   const repository = 'git@github.com:user/my-repository'
   const directory = '/path/to/my-directory'
 
-  config.projects.mockResolvedValue(projects)
+  config.projects.list.mockResolvedValue(projects)
   cio.wait.mockImplementation(p => p)
   glob.mockImplementation((pattern, option, cb) => cb(null, gits))
   cio.checkbox.mockImplementation((message, items) => Promise.resolve(items))
@@ -90,7 +90,7 @@ it('should filter by regex', async () => {
   const gits = ['/path/to/my-directory/.git', '/path/to/my-second-directory/.git']
   const filteredDirectories = ['/path/to/my-second-directory']
 
-  config.projects.mockResolvedValue([])
+  config.projects.list.mockResolvedValue([])
   cio.wait.mockImplementation(p => p)
   glob.mockImplementation((pattern, option, cb) => cb(null, gits))
   cio.checkbox.mockImplementation((message, items) => Promise.resolve(items))

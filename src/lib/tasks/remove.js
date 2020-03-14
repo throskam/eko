@@ -9,7 +9,7 @@ const concat = (...args) => args.join(' ')
 
 module.exports = async (directory) => {
   await cio.wait(
-    Promise.all([config.remove(directory), gitIgnore.remove(directory)]),
+    Promise.all([config.projects.remove(directory), gitIgnore.remove(directory)]),
     cio.message`remove ${directory} project`,
     cio.message`project ${directory} removed`,
     cio.message`impossible to remove ${directory} project`

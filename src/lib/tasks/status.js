@@ -8,7 +8,7 @@ const alpha = (key) => (a, b) => {
 }
 
 module.exports = async () => {
-  const projects = await config.projects()
+  const projects = await config.projects.list()
 
   if (!projects.length) {
     cio.log('nothing to be done')

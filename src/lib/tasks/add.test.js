@@ -22,13 +22,13 @@ it('should add the project to the config file', async () => {
   const directory = 'my-repository-directory'
 
   fs.access.mockImplementation((file, cb) => cb(new Error()))
-  config.add.mockResolvedValue()
+  config.projects.add.mockResolvedValue()
   gitIgnore.add.mockResolvedValue()
   gitClone.mockResolvedValue()
 
   await add(repository, directory)
 
-  expect(config.add).toHaveBeenCalledWith(directory, repository)
+  expect(config.projects.add).toHaveBeenCalledWith({ directory, repository })
 })
 
 it('should add the project to the gitignore file', async () => {
@@ -38,7 +38,7 @@ it('should add the project to the gitignore file', async () => {
   const directory = 'my-repository-directory'
 
   fs.access.mockImplementation((file, cb) => cb(new Error()))
-  config.add.mockResolvedValue()
+  config.projects.add.mockResolvedValue()
   gitIgnore.add.mockResolvedValue()
   gitClone.mockResolvedValue()
 
@@ -54,7 +54,7 @@ it('shoud clone when the directory is missing', async () => {
   const directory = 'my-repository-directory'
 
   fs.access.mockImplementation((file, cb) => cb(new Error()))
-  config.add.mockResolvedValue()
+  config.projects.add.mockResolvedValue()
   gitIgnore.add.mockResolvedValue()
   gitClone.mockResolvedValue()
 
@@ -69,7 +69,7 @@ it('shoud not clone when the directory is already there', async () => {
   const repository = 'git@example.com:owner/my-repository.git'
   const directory = 'my-repository-directory'
 
-  config.add.mockResolvedValue()
+  config.projects.add.mockResolvedValue()
   gitIgnore.add.mockResolvedValue()
   gitClone.mockResolvedValue()
 
@@ -86,11 +86,11 @@ it('should use the repository name as the default directory name', async () => {
   const repository = 'git@example.com:owner/my-repository.git'
 
   fs.access.mockImplementation((file, cb) => cb(new Error()))
-  config.add.mockResolvedValue()
+  config.projects.add.mockResolvedValue()
   gitIgnore.add.mockResolvedValue()
   gitClone.mockResolvedValue()
 
   await add(repository)
 
-  expect(config.add).toHaveBeenCalledWith('my-repository', repository)
+  expect(config.projects.add).toHaveBeenCalledWith({ directory: 'my-repository', repository })
 })

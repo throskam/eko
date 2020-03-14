@@ -7,7 +7,7 @@ const gitClone = require('../git/clone')
 const exist = async file => access(file).then(() => true, () => false)
 
 module.exports = async () => {
-  const projects = await config.projects()
+  const projects = await config.projects.list()
 
   return projects.reduce((acc, project) => {
     return acc.then(async () => {

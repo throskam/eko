@@ -6,7 +6,7 @@ const cio = require('../cio')
 const config = require('../config')
 
 module.exports = async (command, option = {}) => {
-  const projects = await config.projects()
+  const projects = await config.projects.list()
 
   let directories = projects
     .map(project => project.directory)

@@ -34,7 +34,7 @@ it('should execute the given command', async () => {
   ee2.stderr = new events.EventEmitter()
   ee2.stdout = new events.EventEmitter()
 
-  config.projects.mockResolvedValue(directories.map(directory => ({ directory })))
+  config.projects.list.mockResolvedValue(directories.map(directory => ({ directory })))
   childProcess.spawn.mockReturnValueOnce(ee1)
   childProcess.spawn.mockReturnValueOnce(ee2)
   cio.log.mockImplementation(message => messages.push(message))
@@ -61,7 +61,7 @@ it('should return when there is no project', async () => {
 
   const cmd = 'my-cmd'
 
-  config.projects.mockResolvedValue([])
+  config.projects.list.mockResolvedValue([])
 
   await exec(cmd)
 
@@ -80,7 +80,7 @@ it('should filter the project directories with the given regexp', async () => {
   ee.stderr = new events.EventEmitter()
   ee.stdout = new events.EventEmitter()
 
-  config.projects.mockResolvedValue(directories.map(directory => ({ directory })))
+  config.projects.list.mockResolvedValue(directories.map(directory => ({ directory })))
   childProcess.spawn.mockReturnValue(ee)
 
   await exec(cmd, { regex })
@@ -99,7 +99,7 @@ it('should interactively ask for the project directories', async () => {
   ee.stderr = new events.EventEmitter()
   ee.stdout = new events.EventEmitter()
 
-  config.projects.mockResolvedValue(directories.map(directory => ({ directory })))
+  config.projects.list.mockResolvedValue(directories.map(directory => ({ directory })))
   cio.checkbox.mockImplementation((message, items) => Promise.resolve(items))
   childProcess.spawn.mockReturnValue(ee)
 
@@ -119,7 +119,7 @@ it('should respect the maximum concurrency option', async () => {
   ee.stderr = new events.EventEmitter()
   ee.stdout = new events.EventEmitter()
 
-  config.projects.mockResolvedValue(directories.map(directory => ({ directory })))
+  config.projects.list.mockResolvedValue(directories.map(directory => ({ directory })))
   childProcess.spawn.mockReturnValue(ee)
 
   await exec(cmd, { number })

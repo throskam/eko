@@ -24,7 +24,7 @@ it('should remove the directory from the project', async () => {
 
   await remove(directory)
 
-  expect(config.remove).toHaveBeenCalled()
+  expect(config.projects.remove).toHaveBeenCalled()
 })
 
 it('should remove the project directory from the gitignore', async () => {

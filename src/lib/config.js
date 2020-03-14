@@ -36,31 +36,35 @@ const write = (data) => {
   }
 }
 
-module.exports = {
-  async projects () {
-    const config = await read()
+const collection = (name, primary) => {
+  return {
+    async list () {
+      const config = await read()
 
-    return config.projects
-  },
-  async add (directory, repository) {
-    const config = await read()
+      return config[name]
+    },
+    async add (value, force = false) {
+      const config = await read()
 
-    if (config.projects.find(project => project.directory === directory)) {
-      throw new Error('A project with the given directory already exists')
+      if (!force && config[name].find(item => item[primary] === value[primary])) {
+        throw new Error('The given ' + primary + ' already exists in ' + name)
+      }
+
+      config[name] = config[name].filter(item => item[primary] !== value[primary])
+      config[name].push(value)
+
+      return write(config)
+    },
+    async remove (key) {
+      const config = await read()
+
+      config[name] = config[name].filter(item => item[primary] !== key)
+
+      return write(config)
     }
-
-    config.projects.push({
-      directory,
-      repository
-    })
-
-    return write(config)
-  },
-  async remove (directory) {
-    const config = await read()
-
-    config.projects = config.projects.filter(project => project.directory !== directory)
-
-    return write(config)
   }
+}
+
+module.exports = {
+  projects: collection('projects', 'directory')
 }

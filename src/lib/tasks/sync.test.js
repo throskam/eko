@@ -21,7 +21,7 @@ it('should clone missing project', async () => {
     repository: 'git@github.com:my-repository.git'
   }]
 
-  config.projects.mockResolvedValue(projects)
+  config.projects.list.mockResolvedValue(projects)
   fs.access.mockImplementation((file, cb) => cb(new Error()))
 
   await sync()
@@ -37,7 +37,7 @@ it('should skip project with existing directory', async () => {
     repository: 'git@github.com:my-repository.git'
   }]
 
-  config.projects.mockResolvedValue(projects)
+  config.projects.list.mockResolvedValue(projects)
   fs.access.mockImplementation((file, cb) => cb(null))
 
   await sync()

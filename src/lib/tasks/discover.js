@@ -8,7 +8,7 @@ const cio = require('../cio')
 const config = require('../config')
 
 module.exports = async (option = {}) => {
-  const projects = await config.projects()
+  const projects = await config.projects.list()
 
   debug('glob "**/.git**"')
 

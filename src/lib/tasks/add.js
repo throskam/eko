@@ -14,7 +14,7 @@ module.exports = async (repository, directory) => {
   }
 
   await cio.wait(
-    Promise.all([config.add(directory, repository), gitIgnore.add(directory)]),
+    Promise.all([config.projects.add({ directory, repository }), gitIgnore.add(directory)]),
     cio.message`adding ${directory} project`,
     cio.message`project ${directory} added`,
     cio.message`impossible to add ${directory} project`

@@ -34,7 +34,7 @@ it('should display the project status', async () => {
 
   const messages = []
 
-  config.projects.mockResolvedValue(projects)
+  config.projects.list.mockResolvedValue(projects)
   cio.wait.mockImplementation(p => p)
 
   gitStatus.mockResolvedValueOnce({
@@ -73,7 +73,7 @@ it('should display the project status', async () => {
 it('should return when there is no projects', async () => {
   expect.assertions(1)
 
-  config.projects.mockResolvedValue([])
+  config.projects.list.mockResolvedValue([])
 
   await status()
 
