@@ -55,7 +55,7 @@ module.exports = {
   async remove (directory) {
     const config = await read()
 
-    config.projects = config.projects.filter(project => directory !== project.directory)
+    config.projects = config.projects.filter(project => project.directory !== directory)
 
     return write(config)
   }
