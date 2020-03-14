@@ -8,16 +8,20 @@ const exist = async file => access(file).then(() => true, () => false)
 const path = '.eko'
 
 const read = async () => {
+  const defaults = {
+    projects: []
+  }
+
   if (!(await exist(path))) {
-    // Return empty config.
-    return {
-      projects: []
-    }
+    return defaults
   }
 
   try {
     debug('read configuration from ' + path)
-    return JSON.parse(await readFile(path))
+    return {
+      ...defaults,
+      ...JSON.parse(await readFile(path))
+    }
   } catch (err) {
     throw new Error('Impossible to read .eko file')
   }
