@@ -22,7 +22,7 @@ it('should execute the given command', async () => {
   expect.assertions(4)
 
   const directories = ['/path/to/my-directory', '/path/to/my-second-directory']
-  const cmd = 'my-cmd'
+  const command = 'my-command'
 
   const messages = []
 
@@ -41,7 +41,7 @@ it('should execute the given command', async () => {
   pretty.mockReturnValueOnce(1234)
   pretty.mockReturnValueOnce(4567)
 
-  await exec(cmd)
+  await exec(command)
 
   ee1.stdout.emit('data', 'Output')
   ee1.stderr.emit('data', 'Error')
@@ -51,19 +51,19 @@ it('should execute the given command', async () => {
   ee2.emit('close')
 
   expect(childProcess.spawn).toHaveBeenCalledTimes(2)
-  expect(childProcess.spawn).toHaveBeenNthCalledWith(1, cmd, { cwd: directories[0], shell: true })
-  expect(childProcess.spawn).toHaveBeenNthCalledWith(2, cmd, { cwd: directories[1], shell: true })
+  expect(childProcess.spawn).toHaveBeenNthCalledWith(1, command, { cwd: directories[0], shell: true })
+  expect(childProcess.spawn).toHaveBeenNthCalledWith(2, command, { cwd: directories[1], shell: true })
   expect(messages).toMatchSnapshot()
 })
 
 it('should return when there is no project', async () => {
   expect.assertions(1)
 
-  const cmd = 'my-cmd'
+  const command = 'my-command'
 
   config.projects.list.mockResolvedValue([])
 
-  await exec(cmd)
+  await exec(command)
 
   expect(childProcess.spawn).not.toHaveBeenCalled()
 })
@@ -85,7 +85,7 @@ it('should filter the project directories with the given regexp', async () => {
 
   const directories = ['/path/to/my-directory', '/path/to/my-second-directory']
   const filteredDirectories = ['/path/to/my-second-directory']
-  const cmd = 'my-cmd'
+  const command = 'my-command'
   const regex = new RegExp('second', 'iu')
 
   const ee = new events.EventEmitter()
@@ -95,17 +95,17 @@ it('should filter the project directories with the given regexp', async () => {
   config.projects.list.mockResolvedValue(directories.map(directory => ({ directory })))
   childProcess.spawn.mockReturnValue(ee)
 
-  await exec(cmd, { regex })
+  await exec(command, { regex })
 
   expect(childProcess.spawn).toHaveBeenCalledTimes(1)
-  expect(childProcess.spawn).toHaveBeenNthCalledWith(1, cmd, { cwd: filteredDirectories[0], shell: true })
+  expect(childProcess.spawn).toHaveBeenNthCalledWith(1, command, { cwd: filteredDirectories[0], shell: true })
 })
 
 it('should interactively ask for the project directories', async () => {
   expect.assertions(1)
 
   const directories = ['/path/to/my-directory', '/path/to/my-second-directory']
-  const cmd = 'my-cmd'
+  const command = 'my-command'
 
   const ee = new events.EventEmitter()
   ee.stderr = new events.EventEmitter()
@@ -115,7 +115,7 @@ it('should interactively ask for the project directories', async () => {
   cio.checkbox.mockImplementation((message, items) => Promise.resolve(items))
   childProcess.spawn.mockReturnValue(ee)
 
-  await exec(cmd, { interactive: true })
+  await exec(command, { interactive: true })
 
   expect(cio.checkbox).toHaveBeenCalledTimes(1)
 })
@@ -124,7 +124,7 @@ it('should respect the maximum concurrency option', async () => {
   expect.assertions(2)
 
   const directories = ['/path/to/my-directory', '/path/to/my-second-directory', '/path/to/my-third-directory']
-  const cmd = 'my-cmd'
+  const command = 'my-command'
   const number = 2
 
   const ee = new events.EventEmitter()
@@ -134,7 +134,7 @@ it('should respect the maximum concurrency option', async () => {
   config.projects.list.mockResolvedValue(directories.map(directory => ({ directory })))
   childProcess.spawn.mockReturnValue(ee)
 
-  await exec(cmd, { number })
+  await exec(command, { number })
 
   expect(childProcess.spawn).toHaveBeenCalledTimes(2)
 
@@ -149,7 +149,7 @@ it('should expand alias', async () => {
   const directories = ['/path/to/my-directory', '/path/to/my-second-directory']
   const alias = {
     name: 'my-alias',
-    command: 'my-cmd'
+    command: 'my-command'
   }
 
   const ee = new events.EventEmitter()

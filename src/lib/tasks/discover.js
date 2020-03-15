@@ -34,11 +34,11 @@ module.exports = async (option = {}) => {
 
   return directories.reduce(async (acc, directory) => {
     return acc.then(async () => {
-      const cmd = 'git config --get remote.origin.url'
+      const command = 'git config --get remote.origin.url'
 
-      debug('execute "' + cmd + '" in ' + directory)
+      debug('execute "' + command + '" in ' + directory)
 
-      const stream = await exec(cmd, { cwd: directory })
+      const stream = await exec(command, { cwd: directory })
       const repository = stream.stdout.trim()
 
       return add(repository, directory)

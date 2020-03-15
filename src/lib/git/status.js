@@ -5,20 +5,20 @@ const concat = (...args) => args.join(' ')
 
 module.exports = async (directory) => {
   try {
-    const cmd = {
+    const command = {
       branch: concat('git', 'rev-parse', '--abbrev-ref', 'HEAD'),
       changes: concat('git', 'status', '--porcelain'),
       state: concat('git', 'status', '-sb')
     }
 
-    debug('execute "' + cmd.branch + '" in ' + directory)
-    debug('execute "' + cmd.changes + '" in ' + directory)
-    debug('execute "' + cmd.state + '" in ' + directory)
+    debug('execute "' + command.branch + '" in ' + directory)
+    debug('execute "' + command.changes + '" in ' + directory)
+    debug('execute "' + command.state + '" in ' + directory)
 
     const [branch, changes, state] = await Promise.all([
-      exec(cmd.branch, { cwd: directory }),
-      exec(cmd.changes, { cwd: directory }),
-      exec(cmd.state, { cwd: directory })
+      exec(command.branch, { cwd: directory }),
+      exec(command.changes, { cwd: directory }),
+      exec(command.state, { cwd: directory })
     ])
 
     return {

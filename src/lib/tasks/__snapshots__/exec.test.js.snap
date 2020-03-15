@@ -2,7 +2,7 @@
 
 exports[`should execute the given command 1`] = `
 Array [
-  "[36m▶ run [39mmy-cmd[36m in [39m/path/to/my-directory[36m took [39m1234",
-  "[36m▶ run [39mmy-cmd[36m in [39m/path/to/my-second-directory[36m took [39m4567[36m stopped [39mSome error message",
+  "[36m▶ run [39mmy-command[36m in [39m/path/to/my-directory[36m took [39m1234",
+  "[36m▶ run [39mmy-command[36m in [39m/path/to/my-second-directory[36m took [39m4567[36m stopped [39mSome error message",
 ]
 `;

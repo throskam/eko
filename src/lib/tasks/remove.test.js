@@ -20,7 +20,7 @@ it('should remove the directory from the project', async () => {
   const directory = 'path/to/my-directory'
 
   cio.confirm.mockResolvedValue(true)
-  childProcess.exec.mockImplementation((cmd, cb) => cb())
+  childProcess.exec.mockImplementation((command, cb) => cb())
 
   await remove(directory)
 
@@ -33,7 +33,7 @@ it('should remove the project directory from the gitignore', async () => {
   const directory = 'path/to/my-directory'
 
   cio.confirm.mockResolvedValue(true)
-  childProcess.exec.mockImplementation((cmd, cb) => cb())
+  childProcess.exec.mockImplementation((command, cb) => cb())
 
   await remove(directory)
 
@@ -46,7 +46,7 @@ it('should ask for confirmation before removing the directory', async () => {
   const directory = 'path/to/my-directory'
 
   cio.confirm.mockResolvedValue(true)
-  childProcess.exec.mockImplementation((cmd, cb) => cb())
+  childProcess.exec.mockImplementation((command, cb) => cb())
 
   await remove(directory)
 
@@ -59,7 +59,7 @@ it('should remove the directory when confirming', async () => {
   const directory = 'path/to/my-directory'
 
   cio.confirm.mockResolvedValue(true)
-  childProcess.exec.mockImplementation((cmd, cb) => cb())
+  childProcess.exec.mockImplementation((command, cb) => cb())
 
   await remove(directory)
 
@@ -72,7 +72,7 @@ it('should keep the directory when not confirming', async () => {
   const directory = 'path/to/my-directory'
 
   cio.confirm.mockResolvedValue(false)
-  childProcess.exec.mockImplementation((cmd, cb) => cb())
+  childProcess.exec.mockImplementation((command, cb) => cb())
 
   await remove(directory)
 

@@ -26,7 +26,7 @@ it('should ignore excluded directories', async () => {
   cio.wait.mockImplementation(p => p)
   glob.mockImplementation((pattern, option, cb) => cb(null, gits))
   cio.checkbox.mockImplementation((message, items) => Promise.resolve(items))
-  childProcess.exec.mockImplementation((cmd, option, cb) => cb(null, { stdout: '' }))
+  childProcess.exec.mockImplementation((command, option, cb) => cb(null, { stdout: '' }))
 
   await discover(option)
 
@@ -44,7 +44,7 @@ it('should add select repositories', async () => {
   cio.wait.mockImplementation(p => p)
   glob.mockImplementation((pattern, option, cb) => cb(null, gits))
   cio.checkbox.mockImplementation((message, items) => Promise.resolve(items))
-  childProcess.exec.mockImplementation((cmd, option, cb) => cb(null, { stdout: repository }))
+  childProcess.exec.mockImplementation((command, option, cb) => cb(null, { stdout: repository }))
 
   await discover()
 
@@ -76,7 +76,7 @@ it('should ignore already added project', async () => {
   cio.wait.mockImplementation(p => p)
   glob.mockImplementation((pattern, option, cb) => cb(null, gits))
   cio.checkbox.mockImplementation((message, items) => Promise.resolve(items))
-  childProcess.exec.mockImplementation((cmd, option, cb) => cb(null, { stdout: repository }))
+  childProcess.exec.mockImplementation((command, option, cb) => cb(null, { stdout: repository }))
 
   await discover()
 
@@ -94,7 +94,7 @@ it('should filter by regex', async () => {
   cio.wait.mockImplementation(p => p)
   glob.mockImplementation((pattern, option, cb) => cb(null, gits))
   cio.checkbox.mockImplementation((message, items) => Promise.resolve(items))
-  childProcess.exec.mockImplementation((cmd, option, cb) => cb(null, { stdout: '' }))
+  childProcess.exec.mockImplementation((command, option, cb) => cb(null, { stdout: '' }))
 
   await discover({ regex: new RegExp('second', 'iu') })
 
