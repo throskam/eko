@@ -50,6 +50,14 @@ Note that this command is only additive and won't remove any file.
 Note that without the double dashes (`--`), conflicting flags will be interpreted
 as *eko* flags.
 
+You can create aliases to save commands under shorter names.
+
+`eko alias greeting -- echo "echo "Hi from \$PWD""`
+
+And then use them in `exec`.
+
+`eko exec greeting`
+
 ## Colors
 
 Colors in commands output are unfortunately not preserved because most command

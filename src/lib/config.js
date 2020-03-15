@@ -9,7 +9,8 @@ const path = '.eko'
 
 const read = async () => {
   const defaults = {
-    projects: []
+    projects: [],
+    aliases: []
   }
 
   if (!(await exist(path))) {
@@ -66,5 +67,6 @@ const collection = (name, primary) => {
 }
 
 module.exports = {
-  projects: collection('projects', 'directory')
+  projects: collection('projects', 'directory'),
+  aliases: collection('aliases', 'name')
 }

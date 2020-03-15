@@ -68,6 +68,18 @@ it('should return when there is no project', async () => {
   expect(childProcess.spawn).not.toHaveBeenCalled()
 })
 
+it('should return when there is no command', async () => {
+  expect.assertions(1)
+
+  const directories = ['/path/to/my-directory', '/path/to/my-second-directory']
+
+  config.projects.list.mockResolvedValue(directories.map(directory => ({ directory })))
+
+  await exec()
+
+  expect(childProcess.spawn).not.toHaveBeenCalled()
+})
+
 it('should filter the project directories with the given regexp', async () => {
   expect.assertions(2)
 
@@ -129,4 +141,44 @@ it('should respect the maximum concurrency option', async () => {
   ee.emit('close')
 
   expect(childProcess.spawn).toHaveBeenCalledTimes(3)
+})
+
+it('should expand alias', async () => {
+  expect.assertions(1)
+
+  const directories = ['/path/to/my-directory', '/path/to/my-second-directory']
+  const alias = {
+    name: 'my-alias',
+    command: 'my-cmd'
+  }
+
+  const ee = new events.EventEmitter()
+  ee.stderr = new events.EventEmitter()
+  ee.stdout = new events.EventEmitter()
+
+  config.projects.list.mockResolvedValue(directories.map(directory => ({ directory })))
+  config.aliases.list.mockResolvedValue([alias])
+  childProcess.spawn.mockReturnValue(ee)
+
+  await exec('', { alias: alias.name })
+
+  expect(childProcess.spawn).toHaveBeenCalledWith(alias.command, expect.any(Object))
+})
+
+it('should return when the alias is unknow', async () => {
+  expect.assertions(1)
+
+  const directories = ['/path/to/my-directory', '/path/to/my-second-directory']
+
+  const ee = new events.EventEmitter()
+  ee.stderr = new events.EventEmitter()
+  ee.stdout = new events.EventEmitter()
+
+  config.projects.list.mockResolvedValue(directories.map(directory => ({ directory })))
+  config.aliases.list.mockResolvedValue([])
+  childProcess.spawn.mockReturnValue(ee)
+
+  await exec('', { alias: 'unkown-alias' })
+
+  expect(childProcess.spawn).not.toHaveBeenCalled()
 })

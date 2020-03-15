@@ -21,6 +21,25 @@ module.exports = async (command, option = {}) => {
     return
   }
 
+  if (option.alias) {
+    const aliases = await config.aliases.list()
+    const alias = aliases.find(alias => alias.name === option.alias)
+
+    if (!alias) {
+      cio.error('Unkown alias ' + option.alias)
+      return
+    }
+
+    debug('expand alias ' + alias.name + ' to "' + alias.command + '"')
+
+    command = alias.command
+  }
+
+  if (!command) {
+    cio.error('No command given')
+    return
+  }
+
   const next = () => {
     const directory = directories.shift()
 
