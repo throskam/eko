@@ -66,7 +66,16 @@ const collection = (name, primary) => {
   }
 }
 
+const initialize = async () => {
+  if (await exist(path)) {
+    throw new Error('The current directory is already an eko project')
+  }
+
+  return write({})
+}
+
 module.exports = {
+  initialize,
   projects: collection('projects', 'directory'),
   aliases: collection('aliases', 'name')
 }
