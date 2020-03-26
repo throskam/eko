@@ -32,7 +32,7 @@ module.exports = async (command, option = {}) => {
 
     debug('expand alias ' + alias.name + ' to "' + alias.command + '"')
 
-    command = alias.command
+    command = alias.command + (command ? ' ' + command : '')
   }
 
   if (!command) {

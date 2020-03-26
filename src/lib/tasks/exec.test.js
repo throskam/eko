@@ -165,6 +165,29 @@ it('should expand alias', async () => {
   expect(childProcess.spawn).toHaveBeenCalledWith(alias.command, expect.any(Object))
 })
 
+it('should append parameter to alias', async () => {
+  expect.assertions(1)
+
+  const directories = ['/path/to/my-directory', '/path/to/my-second-directory']
+  const alias = {
+    name: 'my-alias',
+    command: 'my-command'
+  }
+  const command = 'some additional parameters'
+
+  const ee = new events.EventEmitter()
+  ee.stderr = new events.EventEmitter()
+  ee.stdout = new events.EventEmitter()
+
+  config.projects.list.mockResolvedValue(directories.map(directory => ({ directory })))
+  config.aliases.list.mockResolvedValue([alias])
+  childProcess.spawn.mockReturnValue(ee)
+
+  await exec(command, { alias: alias.name })
+
+  expect(childProcess.spawn).toHaveBeenCalledWith(alias.command + ' ' + command, expect.any(Object))
+})
+
 it('should return when the alias is unknow', async () => {
   expect.assertions(1)
 
