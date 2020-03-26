@@ -20,6 +20,10 @@ module.exports = {
       default: 0,
       describe: 'The number of concurrent processes',
       type: 'number'
+    }).option('workdir', {
+      alias: 'w',
+      describe: 'Target workdir',
+      type: 'boolean'
     })
   },
   handler: (argv) => {
@@ -29,7 +33,8 @@ module.exports = {
       alias: argv.alias,
       regex: argv.regex ? new RegExp(argv.regex, 'iu') : null,
       interactive: argv.interactive,
-      number: argv.number
+      number: argv.number,
+      workdir: argv.workdir
     })
   }
 }

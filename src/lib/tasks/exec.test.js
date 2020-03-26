@@ -2,12 +2,14 @@ jest.mock('child_process')
 jest.mock('pretty-time')
 jest.mock('../cio')
 jest.mock('../config')
+jest.mock('../env')
 
 const events = require('events')
 const childProcess = require('child_process')
 const pretty = require('pretty-time')
 const cio = require('../cio')
 const config = require('../config')
+const env = require('../env')
 
 const exec = require('./exec')
 
@@ -118,6 +120,26 @@ it('should interactively ask for the project directories', async () => {
   await exec(command, { interactive: true })
 
   expect(cio.checkbox).toHaveBeenCalledTimes(1)
+})
+
+it('should run in the working directory when asked', async () => {
+  expect.assertions(1)
+
+  const directories = ['/path/to/my-directory', '/path/to/my-second-directory']
+  const workdir = '/path/to/my-working-directory'
+  const command = 'my-command'
+
+  const ee = new events.EventEmitter()
+  ee.stderr = new events.EventEmitter()
+  ee.stdout = new events.EventEmitter()
+
+  env.mockResolvedValue({ workdir })
+  config.projects.list.mockResolvedValue(directories.map(directory => ({ directory })))
+  childProcess.spawn.mockReturnValue(ee)
+
+  await exec(command, { workdir: true })
+
+  expect(childProcess.spawn).toHaveBeenCalledWith(command, expect.objectContaining({ cwd: workdir }))
 })
 
 it('should respect the maximum concurrency option', async () => {

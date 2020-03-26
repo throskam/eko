@@ -4,6 +4,7 @@ const { spawn } = require('child_process')
 
 const cio = require('../cio')
 const config = require('../config')
+const env = require('../env')
 
 module.exports = async (command, option = {}) => {
   const projects = await config.projects.list()
@@ -14,6 +15,10 @@ module.exports = async (command, option = {}) => {
 
   if (option.interactive && directories.length) {
     directories = await cio.checkbox('Choose the directories you want to target', directories)
+  }
+
+  if (option.workdir) {
+    directories = [(await env()).workdir]
   }
 
   if (!directories.length) {
