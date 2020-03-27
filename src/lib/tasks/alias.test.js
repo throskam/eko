@@ -4,6 +4,9 @@ jest.mock('../config')
 const cio = require('../cio')
 const config = require('../config')
 
+// Keep real implementation of message.
+cio.message = jest.requireActual('../cio').message
+
 const alias = require('./alias')
 
 beforeEach(() => {
@@ -13,17 +16,22 @@ beforeEach(() => {
 it('should list aliases', async () => {
   expect.assertions(1)
 
+  const messages = []
+
   const aliases = [{
-    name: 'my-first-alias'
+    name: 'my-first-alias',
+    command: 'my-first-command --with-params'
   }, {
-    name: 'my-second-alias'
+    name: 'my-second-alias',
+    command: 'my-second-command'
   }]
 
   config.aliases.list.mockResolvedValue(aliases)
+  cio.log.mockImplementation(message => messages.push(message))
 
   await alias()
 
-  expect(cio.log).toHaveBeenCalledTimes(aliases.length)
+  expect(messages).toMatchSnapshot()
 })
 
 it('should add an alias', async () => {

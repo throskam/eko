@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should list aliases 1`] = `
+Array [
+  "[36m● [39mmy-first-alias [36m $ [39mmy-first-command --with-params",
+  "[36m● [39mmy-second-alias[36m $ [39mmy-second-command",
+]
+`;
