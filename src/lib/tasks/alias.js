@@ -19,7 +19,7 @@ module.exports = async (name, command, option = {}) => {
       config.aliases.remove(name),
       cio.message`removing ${name} alias`,
       cio.message`alias ${name} removed`,
-      cio.message`impossible to remove ${name} project`
+      cio.message`impossible to remove ${name} alias`
     )
   }
 
@@ -32,6 +32,6 @@ module.exports = async (name, command, option = {}) => {
     config.aliases.add({ name, command }, option.force),
     cio.message`adding ${name} alias`,
     cio.message`alias ${name} added`,
-    cio.message`impossible to add ${name} project`
+    cio.message`impossible to add ${name} alias`
   )
 }
