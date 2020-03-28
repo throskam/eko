@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.2](https://github.com/throskam/eko/compare/v0.4.1...v0.4.2) (2020-03-28)
+
+
+### Features
+
+* accept alias parameters ([5bbc86c](https://github.com/throskam/eko/commit/5bbc86c69b52efcc04a419a29e67c703b677bc80))
+* add tags ([a9794a3](https://github.com/throskam/eko/commit/a9794a381709f4fcc28058a8ebec699aef8f7ee7))
+* add workdir as exec parameter ([2386707](https://github.com/throskam/eko/commit/2386707e4d304287f5cc380627155125dacc51f7))
+* runnable from subdirectories ([606df5c](https://github.com/throskam/eko/commit/606df5cce4e1022bef7e73ab5acc510338c6ff84))
+
+
+### Bug Fixes
+
+* alias error message ([c31611b](https://github.com/throskam/eko/commit/c31611b6f4bc7fc2364f5794d84d1c697a746f57))
+
 ### [0.4.1](https://github.com/throskam/eko/compare/v0.4.0...v0.4.1) (2020-03-16)
 
 
