@@ -43,6 +43,10 @@ You can use the `sync` command to synchronize your project with its `.eko` file.
 
 Note that this command is only additive and won't remove any file.
 
+You can organise your projects with tags using the `tag` command.
+
+`eko tag my-tag -i`
+
 ### Executing Commands
 
 `eko exec -- echo "Hi from \$PWD"`

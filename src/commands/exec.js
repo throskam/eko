@@ -15,6 +15,10 @@ module.exports = {
       alias: 'i',
       describe: 'Interactively choose directories',
       type: 'boolean'
+    }).option('tags', {
+      alias: 't',
+      describe: 'Project tags',
+      type: 'array'
     }).option('number', {
       alias: 'n',
       default: 0,
@@ -33,6 +37,7 @@ module.exports = {
       alias: argv.alias,
       regex: argv.regex ? new RegExp(argv.regex, 'iu') : null,
       interactive: argv.interactive,
+      tags: argv.tags,
       number: argv.number,
       workdir: argv.workdir
     })

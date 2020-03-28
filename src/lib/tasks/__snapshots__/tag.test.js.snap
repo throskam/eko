@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should list tags 1`] = `
+Array [
+  "[36m● [39m/path/to/my-first-directory [36m # [39mfirst-tag",
+  "[36m● [39m/path/to/my-second-directory[36m # [39m",
+]
+`;

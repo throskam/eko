@@ -122,6 +122,33 @@ it('should interactively ask for the project directories', async () => {
   expect(cio.checkbox).toHaveBeenCalledTimes(1)
 })
 
+it('should filter on tags', async () => {
+  expect.assertions(2)
+
+  const tag = 'my-tag'
+
+  const projects = [{
+    directory: '/path/to/my-first-directory',
+    tags: [tag]
+  }, {
+    directory: '/path/to/my-second-directory'
+  }]
+  const command = 'my-command'
+  const tags = [tag, 'unknown']
+
+  const ee = new events.EventEmitter()
+  ee.stderr = new events.EventEmitter()
+  ee.stdout = new events.EventEmitter()
+
+  config.projects.list.mockResolvedValue(projects)
+  childProcess.spawn.mockReturnValue(ee)
+
+  await exec(command, { tags })
+
+  expect(childProcess.spawn).toHaveBeenCalledTimes(1)
+  expect(childProcess.spawn).toHaveBeenNthCalledWith(1, command, { cwd: projects[0].directory, shell: true })
+})
+
 it('should run in the working directory when asked', async () => {
   expect.assertions(1)
 

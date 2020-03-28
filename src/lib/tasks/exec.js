@@ -10,6 +10,7 @@ module.exports = async (command, option = {}) => {
   const projects = await config.projects.list()
 
   let directories = projects
+    .filter(project => !option.tags || (project.tags || []).some(tag => option.tags.includes(tag)))
     .map(project => project.directory)
     .filter(directory => !option.regex || option.regex.test(directory))
 
