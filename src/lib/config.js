@@ -5,6 +5,11 @@ const writeFile = require('util').promisify(require('fs').writeFile)
 
 const exist = async file => access(file).then(() => true, () => false)
 
+// Note: the equals case isn't possible with directory name.
+const alpha = (key) => (a, b) => {
+  return a[key] > b[key] ? 1 : -1
+}
+
 const path = '.eko'
 
 const read = async () => {
@@ -53,6 +58,7 @@ const collection = (name, primary) => {
 
       config[name] = config[name].filter(item => item[primary] !== value[primary])
       config[name].push(value)
+      config[name].sort(alpha(primary))
 
       return write(config)
     },
@@ -60,6 +66,7 @@ const collection = (name, primary) => {
       const config = await read()
 
       config[name] = config[name].filter(item => item[primary] !== key)
+      config[name].sort(alpha(primary))
 
       return write(config)
     }
