@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.3](https://github.com/throskam/eko/compare/v0.4.2...v0.4.3) (2020-04-01)
+
+
+### Features
+
+* sort aliases and projects by name ([1df121e](https://github.com/throskam/eko/commit/1df121eeae6c8e11099b1bafd5f4edbcd03fbe56))
+
 ### [0.4.2](https://github.com/throskam/eko/compare/v0.4.1...v0.4.2) (2020-03-28)
 
 
